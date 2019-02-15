@@ -1,54 +1,33 @@
 <?php
 
-/*
- * NOTICE OF LICENSE
- *
- * Part of the Rinvex Fort Package.
- *
- * This source file is subject to The MIT License (MIT)
- * that is bundled with this package in the LICENSE file.
- *
- * Package: Rinvex Fort Package
- * License: The MIT License (MIT)
- * Link:    https://rinvex.com
- */
+declare(strict_types=1);
 
-namespace Rinvex\Fort\Traits;
-
-use Rinvex\Fort\Notifications\EmailVerificationRequestNotification;
+namespace Rinvex\Auth\Traits;
 
 trait CanVerifyEmail
 {
     /**
-     * Get the email address where verification links are sent.
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getEmailForVerification()
+    public function getEmailForVerification(): string
     {
         return $this->email;
     }
 
     /**
-     * Determine if email is verified or not.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isEmailVerified()
+    public function hasVerifiedEmail(): bool
     {
-        return (bool) $this->email_verified;
+        return ! is_null($this->email_verified_at);
     }
 
     /**
-     * Send the email verification notification.
-     *
-     * @param array  $token
-     * @param string $expiration
-     *
-     * @return void
+     * {@inheritdoc}
      */
-    public function sendEmailVerificationNotification(array $token, $expiration)
+    public function sendEmailVerificationNotification(string $token, int $expiration): void
     {
-        $this->notify(new EmailVerificationRequestNotification($token, $expiration));
+        ! $this->emailVerificationNotificationClass
+        || $this->notify(new $this->emailVerificationNotificationClass($token, $expiration));
     }
 }

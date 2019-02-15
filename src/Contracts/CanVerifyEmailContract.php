@@ -1,43 +1,32 @@
 <?php
 
-/*
- * NOTICE OF LICENSE
- *
- * Part of the Rinvex Fort Package.
- *
- * This source file is subject to The MIT License (MIT)
- * that is bundled with this package in the LICENSE file.
- *
- * Package: Rinvex Fort Package
- * License: The MIT License (MIT)
- * Link:    https://rinvex.com
- */
+declare(strict_types=1);
 
-namespace Rinvex\Fort\Contracts;
+namespace Rinvex\Auth\Contracts;
 
 interface CanVerifyEmailContract
 {
     /**
-     * Get the email address where verification links are sent.
+     * Get the email for verification sending.
      *
      * @return string
      */
-    public function getEmailForVerification();
+    public function getEmailForVerification(): string;
 
     /**
-     * Determine if email is verified or not.
+     * Determine if the user has verified their email address.
      *
      * @return bool
      */
-    public function isEmailVerified();
+    public function hasVerifiedEmail(): bool;
 
     /**
      * Send the email verification notification.
      *
-     * @param array  $token
-     * @param string $expiration
+     * @param string $token
+     * @param int    $expiration
      *
      * @return void
      */
-    public function sendEmailVerificationNotification(array $token, $expiration);
+    public function sendEmailVerificationNotification(string $token, int $expiration): void;
 }
